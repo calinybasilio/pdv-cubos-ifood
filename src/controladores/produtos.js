@@ -65,6 +65,20 @@ const uploadImage = async (imageUrl) => {
     }
 }
 
+const listarProduto = async (req, res) => {
+    //const idUsuario = req.usuario.id;
+
+    try {
+        const listandoProdutos = await pool.query(
+            `select * from produtos`,
+        )
+        return res.status(200).json(listandoProdutos.rows);
+    } catch (error) {
+        return res.status(400).json({ mensagem: 'Erro interno do servidor' })
+    }
+}
+
 module.exports = {
-    cadastrarProduto
+    cadastrarProduto,
+    listarProduto
 }
