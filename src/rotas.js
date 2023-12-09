@@ -1,6 +1,7 @@
 const express = require('express');
 const usuarios = require('./controladores/usuarios')
 const verificarToken = require('./intermediarios/autenticacao');
+const produtos = require('./controladores/produtos')
 //const cadastrarUsuario = require('./controladores/usuarios');
 
 
@@ -15,6 +16,6 @@ rotas.post('/usuario', usuarios.cadastrarUsuario);
 rotas.post('/login', usuarios.login);
 
 rotas.use(verificarToken);
-//todas as rotas que requerem autenticação
+rotas.post('/produto', produtos.cadastrarProduto);
 
 module.exports = rotas;
