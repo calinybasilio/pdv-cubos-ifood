@@ -78,7 +78,30 @@ const listarProduto = async (req, res) => {
     }
 }
 
+const detalharProduto = async (req, res) => {
+    const { id } = req.params;
+    const idUsuario = req.usuario.id;
+
+    try {
+        const detalhandoProduto = await pool.query(
+            `SELECT * FROM produtos WHERE id = $1;`,
+            [id]
+        )
+
+        if (detalhandoProduto.rows < 1) {
+            return res.status(400).json({ mensagem: 'Transação não encontrada' })
+        }
+
+        return res.status(200).json(detalhandoProduto.rows)
+    } catch (error) {
+       
+        return res.status(500).json({ mensagem: 'Erro interno do servidor' })
+    }
+
+}
+
 module.exports = {
     cadastrarProduto,
-    listarProduto
+    listarProduto,
+    detalharProduto
 }
