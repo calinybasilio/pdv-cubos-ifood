@@ -100,8 +100,46 @@ const detalharProduto = async (req, res) => {
 
 }
 
+const excluirProduto = async (req, res) => {
+    const { id } = req.params;
+    const idUsuario = req.usuario.id;
+
+    const validarId = (id) => {
+        return isNaN(id);
+    }
+
+    if (validarId(id)) {
+        return res.status(400).json({ mensagem: "O id deve ser um número válido." });
+    }
+
+    try {
+        const transacaoExistente = await pool.query(
+            `SELECT * FROM produtos
+            WHERE id = $1`,
+            [id]
+        );
+
+        if (transacaoExistente.rowCount === 0) {
+            return res.status(404).json({ mensagem: "Produto não encontrado." });
+        }
+
+        await pool.query(
+            `DELETE FROM produtos
+            WHERE id = $1`,
+            [id]
+        );
+
+        return res.status(204).json({ mensagem: 'Produto excluído com sucesso!' });
+        
+    } catch (error) {
+        
+        return res.status(500).json({ mensagem: "Erro no servidor" });
+    }
+}
+
 module.exports = {
     cadastrarProduto,
     listarProduto,
-    detalharProduto
+    detalharProduto,
+    excluirProduto
 }

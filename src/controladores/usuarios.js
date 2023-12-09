@@ -25,7 +25,7 @@ const cadastrarUsuario = async (req, res) => {
             [email]
         )
         if (verificandoEmail.rowCount != 0){
-            return res.status(500).json({ mensagem: 'Já existe usuário cadastrado com o e-mail informado.' })
+            return res.status(400).json({ mensagem: 'Já existe usuário cadastrado com o e-mail informado.' })
         }
 
 		const senhaCriptografada = await bcrypt.hash(senha, 10)
@@ -37,7 +37,7 @@ const cadastrarUsuario = async (req, res) => {
 
 		return res.status(201).json(novoUsuario.rows[0])
 	} catch (error) {
-		return res.status(400).json({ mensagem: 'Erro interno do servidor' })
+		return res.status(500).json({ mensagem: 'Erro interno do servidor' })
 	}
 }
 
