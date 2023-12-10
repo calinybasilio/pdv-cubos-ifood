@@ -3,7 +3,7 @@ const axios = require('axios');
 const FormData = require('form-data');
 
 const cadastrarProduto = async (req, res) => {
-	const { descricao, valor, produto_imagem } = req.body
+    const { descricao, valor, produto_imagem } = req.body
     const idUsuario = req.usuario.id;
     try {
         if (!descricao || !valor) {
@@ -90,7 +90,7 @@ const detalharProduto = async (req, res) => {
 
         return res.status(200).json(detalhandoProduto.rows)
     } catch (error) {
-       
+
         return res.status(500).json({ mensagem: 'Erro interno do servidor' })
     }
 
@@ -128,6 +128,7 @@ const excluirProduto = async (req, res) => {
         return res.status(204).json({ mensagem: 'Produto excluído com sucesso!' });
         
     } catch (error) {
+        console.log(error)
         
         return res.status(500).json({ mensagem: "Erro no servidor" });
     }
