@@ -76,6 +76,50 @@ const inserirDetalhesPedidoNoBanco = async (idPedido, detalhesProdutos) => {
     );
 }
 
+const listarPedido = async (req, res) => {
+    try {
+        const { a_partir } = req.query;
+
+        let consultaSQL = 'SELECT * FROM pedidos';
+
+        if (a_partir) {
+            consultaSQL += ' WHERE data >= $1';
+        }
+
+        const parametros = a_partir ? [a_partir] : [];
+        const resultadoPedidos = await pool.query(consultaSQL, parametros);
+        const pedidos = await Promise.all(resultadoPedidos.rows.map(async (pedido) => {
+  
+            const resultadoDetalhes = await pool.query(
+                'SELECT * FROM pedido_produtos WHERE pedido_id = $1',
+                [pedido.id]
+            );
+
+            const detalhesProdutos = resultadoDetalhes.rows.map((detalhe) => ({
+                id: detalhe.id,
+                quantidade_produto: detalhe.quantidade_produto,
+                valor_produto: detalhe.valor_produto,
+                pedido_id: detalhe.pedido_id,
+                produto_id: detalhe.produto_id,
+            }));
+
+            return {
+                pedido: {
+                    id: pedido.id,
+                    valor_total: pedido.valor_total,
+                    data: pedido.data.toISOString().split('T')[0],
+                },
+                pedido_produtos: detalhesProdutos,
+            };
+        }));
+
+        res.status(200).json(pedidos);
+    } catch (error) {
+        res.status(500).json({ mensagem: 'Erro interno do servidor' });
+    }
+};
+
 module.exports = {
-    cadastrarPedido
+    cadastrarPedido,
+    listarPedido
 }

@@ -1,7 +1,4 @@
 const pool = require('../conexaosql')
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
-const senhaJwt = require('../senhaJwt')
 const axios = require('axios');
 const FormData = require('form-data');
 
@@ -66,7 +63,6 @@ const uploadImage = async (imageUrl) => {
 }
 
 const listarProduto = async (req, res) => {
-    //const idUsuario = req.usuario.id;
 
     try {
         const listandoProdutos = await pool.query(
@@ -136,8 +132,6 @@ const excluirProduto = async (req, res) => {
         return res.status(500).json({ mensagem: "Erro no servidor" });
     }
 }
-
-
 
 module.exports = {
     cadastrarProduto,
