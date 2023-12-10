@@ -2,8 +2,7 @@ const express = require('express');
 const usuarios = require('./controladores/usuarios')
 const verificarToken = require('./intermediarios/autenticacao');
 const produtos = require('./controladores/produtos')
-//const cadastrarUsuario = require('./controladores/usuarios');
-
+const pedidos = require('./controladores/pedidos')
 
 const rotas = express();
 
@@ -20,5 +19,6 @@ rotas.post('/produto', produtos.cadastrarProduto);
 rotas.get('/produto', produtos.listarProduto);
 rotas.get('/produto/:id', produtos.detalharProduto);
 rotas.delete('/produto/:id', produtos.excluirProduto);
+rotas.post('/pedido', pedidos.cadastrarPedido);
 
 module.exports = rotas;

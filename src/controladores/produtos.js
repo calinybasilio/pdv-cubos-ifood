@@ -137,6 +137,8 @@ const excluirProduto = async (req, res) => {
     }
 }
 
+
+
 module.exports = {
     cadastrarProduto,
     listarProduto,

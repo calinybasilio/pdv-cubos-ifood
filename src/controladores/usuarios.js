@@ -3,8 +3,6 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const senhaJwt = require('../senhaJwt')
 
-
-
 const cadastrarUsuario = async (req, res) => {
 	const { nome, email, senha } = req.body
 
@@ -71,8 +69,6 @@ const login = async (req, res) => {
         return res.status(400).json({ mensagem: 'Erro interno do servidor' })
     }
 }
-
-
 
 module.exports = {
     cadastrarUsuario,
