@@ -6,11 +6,6 @@ const pedidos = require('./controladores/pedidos')
 
 const rotas = express();
 
-rotas.get('/usuario', (req, res) => {
-    
-    return res.status(200).json({ mensagem: 'Entrou' });
-});
-
 rotas.post('/usuario', usuarios.cadastrarUsuario);
 rotas.post('/login', usuarios.login);
 
@@ -20,5 +15,6 @@ rotas.get('/produto', produtos.listarProduto);
 rotas.get('/produto/:id', produtos.detalharProduto);
 rotas.delete('/produto/:id', produtos.excluirProduto);
 rotas.post('/pedido', pedidos.cadastrarPedido);
+rotas.get('/pedido', pedidos.listarPedido);
 
 module.exports = rotas;
