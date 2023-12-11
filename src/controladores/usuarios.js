@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken')
 const senhaJwt = require('../senhaJwt')
 const transportador = require('./email')
 
+
 const cadastrarUsuario = async (req, res) => {
     const { nome, email, senha } = req.body;
 
@@ -35,11 +36,10 @@ const cadastrarUsuario = async (req, res) => {
             to: `${nome} <${email}>`,
             subject: 'Boas Vindas',
             text: 'Desejamos boas vindas à nossa aplicação!',
-        });
-
+        })
+    
         return res.status(201).json(novoUsuario.rows[0]);
     } catch (error) {
-        console.error(error); // Adicionei um log de erro para ajudar a diagnosticar problemas
         return res.status(500).json({ mensagem: 'Erro interno do servidor' });
     }
 };
