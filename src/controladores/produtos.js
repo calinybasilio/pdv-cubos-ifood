@@ -107,6 +107,16 @@ const excluirProduto = async (req, res) => {
     }
 
     try {
+        const endpoint = new aws.Endpoint(process.env.ENDPOINT_S3)
+
+        const s3 = new aws.S3({
+            endpoint,
+            credentials: {
+                accessKeyId: process.env.KEY_ID,
+                secretAccessKey: process.env.APP_KEY
+            }
+        })
+        
         const produtoExistente = await pool.query(
             `SELECT * FROM produtos
             WHERE id = $1`,
@@ -116,6 +126,21 @@ const excluirProduto = async (req, res) => {
         if (produtoExistente.rowCount === 0) {
             return res.status(404).json({ mensagem: "Produto não encontrado." });
         }
+
+        const produto_imagem = await pool.query(
+            `SELECT produto_imagem FROM produtos
+            WHERE id = $1`,
+            [id]
+        );
+
+        const excluirArquivo = async (path) => {
+            await s3.deleteObject({
+                Bucket: process.env.BACKBLAZE_BUCKET,
+                Key: path
+            }).promise()
+        }
+        
+        await excluirArquivo(produto_imagem.rows[0].produto_imagem)
 
         await pool.query(
             `DELETE FROM produtos
