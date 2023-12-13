@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const rotas = require('./rotas');
+const pool = require('./conexaosql')
 
 const app = express();
 //app.use(cors());
