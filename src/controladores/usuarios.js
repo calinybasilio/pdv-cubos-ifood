@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken')
 const senhaJwt = require('../senhaJwt')
 const transportador = require('./email')
 
-
 const cadastrarUsuario = async (req, res) => {
     const { nome, email, senha } = req.body;
 

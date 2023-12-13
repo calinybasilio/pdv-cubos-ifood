@@ -38,3 +38,6 @@ DROP CONSTRAINT pedido_produtos_produto_id_fkey;
 ALTER TABLE pedido_produtos
 ADD CONSTRAINT pedido_produtos_produto_id_fkey
 FOREIGN KEY (produto_id) REFERENCES produtos(id) ON DELETE CASCADE;
+
+ALTER TABLE produtos
+ALTER COLUMN produto_imagem TYPE TEXT;
